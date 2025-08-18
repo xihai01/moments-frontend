@@ -7,7 +7,7 @@ import Page1 from './Page1';
 import Page2 from './Page2';
 import Page3 from './Page3';
 import Page4 from './Page4';
-import { toggleCheckbox } from '../../slices/createScreenSlice';
+import { toggleCheckbox } from '../../redux/slices/createScreenSlice';
 
 const RenderFormPage = ({ currentPage }) => {
   const dispatch = useAppDispatch();

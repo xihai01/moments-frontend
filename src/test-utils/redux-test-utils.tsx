@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 import type { AppStore, RootState } from '../redux/store';
 // As a basic setup, import your same slice reducers
-import createScreenReducer from '../slices/createScreenSlice';
+import createScreenReducer from '../redux/slices/createScreenSlice';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.

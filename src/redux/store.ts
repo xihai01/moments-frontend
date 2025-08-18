@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import createScreenReducer from 'src/slices/createScreenSlice';
+import createScreenReducer from '~/redux/slices/createScreenSlice';
 
 export const store = configureStore({
   reducer: {
