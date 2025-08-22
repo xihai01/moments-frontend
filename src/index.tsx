@@ -1,4 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+//import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useContext } from 'react';
@@ -11,32 +13,34 @@ import AccountScreen from './screens/AccountScreen';
 import CaseContactCreateScreen from './screens/CaseContactCreateScreen';
 import CaseContactDetailScreen from './screens/CaseContactDetailScreen';
 import CaseContactListScreen from './screens/CaseContactListScreen';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/login/LoginScreen';
+import PrivacyScreen from './screens/login/PrivacyScreen';
+import TermsScreen from './screens/login/TermsScreen';
 
 const Tab = createBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
 
-function CustomTabBar({ navigation }) {
+function CustomTabBar({ navigation }: BottomTabBarProps) {
   return (
     <View style={tw`flex-row pb-10 items-center justify-around h-1/8 w-full bg-[#434343] py-1`}>
       <Button
         buttonStyle={tw`flex justify-center items-center bg-[#3a9ca6] rounded-3xl w-[30] h-[10]`}
         textStyle={tw`text-xl font-bold text-white`}
-        title="My Cases"
-        onPress={() => navigation.navigate('CaseContactListScreen')}
-      />
+        onPress={() => navigation.navigate('CaseContactListScreen')}>
+        My Cases
+      </Button>
       <Button
         buttonStyle={tw`flex justify-center items-center bg-[#3a9ca6] rounded-3xl w-[25] h-[10]`}
         textStyle={tw`text-xl font-bold text-white`}
-        title="Create"
-        onPress={() => navigation.navigate('CaseContactCreateScreen')}
-      />
+        onPress={() => navigation.navigate('CaseContactCreateScreen')}>
+        Create
+      </Button>
       <Button
         buttonStyle={tw`flex justify-center items-center bg-[#3a9ca6] rounded-3xl w-[30] h-[10]`}
         textStyle={tw`text-xl font-bold text-white`}
-        title="Account"
-        onPress={() => navigation.navigate('AccountScreen')}
-      />
+        onPress={() => navigation.navigate('AccountScreen')}>
+        Account
+      </Button>
     </View>
   );
 }
@@ -55,7 +59,7 @@ function TabNavigator() {
 }
 
 function Main() {
-  const { state, tryLocalSignin } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   // Attempt to restore token from AsyncStorage when the app starts
   /*
   useEffect(() => {
@@ -73,11 +77,23 @@ function Main() {
             options={{ headerShown: false }}
           />
         ) : (
-          <RootStack.Screen
-            name="LoginScreen"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
+          <>
+            <RootStack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <RootStack.Screen
+              name="PrivacyScreen"
+              component={PrivacyScreen}
+              options={{ headerShown: true }}
+            />
+            <RootStack.Screen
+              name="TermsScreen"
+              component={TermsScreen}
+              options={{ headerShown: true }}
+            />
+          </>
         )}
       </RootStack.Navigator>
     </NavigationContainer>

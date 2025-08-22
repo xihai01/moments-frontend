@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 interface Props {
-  title: string;
+  children: React.ReactNode;
   onPress: () => void;
   buttonStyle?: any;
   textStyle?: any;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Button: React.FC<Props> = ({
-  title,
+  children,
   onPress,
   buttonStyle,
   textStyle,
@@ -25,7 +25,7 @@ const Button: React.FC<Props> = ({
       disabled={disabled}
       accessibilityRole="button">
       <Text style={textStyle} onPress={disabled ? undefined : onPress} disabled={disabled}>
-        {title}
+        {children}
       </Text>
     </TouchableOpacity>
   );
