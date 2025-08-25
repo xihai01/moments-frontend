@@ -28,7 +28,11 @@
     },
     "transformIgnorePatterns": [
       "./node_modules/(?!(jest-)?react-native|@react-native|@react-native-community|@react-navigation|react-redux|@reduxjs/toolkit|@react-native-async-storage/async-storage|@react-native-community/datetimepicker|@react-navigation/bottom-tabs|@react-navigation/native-stack|react-native-elements|react-native-reanimated|react-native-safe-area-context|expo-status-bar|expo|@expo|axios|twrnc)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/src/$1",
+      "^assets/(.*)$": "<rootDir>/assets/$1"
+    }
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.1",
