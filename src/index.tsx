@@ -14,6 +14,7 @@ import CaseContactCreateScreen from './screens/CaseContactCreateScreen';
 import CaseContactDetailScreen from './screens/CaseContactDetailScreen';
 import CaseContactListScreen from './screens/CaseContactListScreen';
 import LoginScreen from './screens/login/LoginScreen';
+import PhoneNumberScreen from './screens/login/PhoneNumberScreen';
 import PrivacyScreen from './screens/login/PrivacyScreen';
 import TermsScreen from './screens/login/TermsScreen';
 
@@ -81,6 +82,11 @@ function Main() {
             <RootStack.Screen
               name="LoginScreen"
               component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <RootStack.Screen
+              name="PhoneNumberScreen"
+              component={PhoneNumberScreen}
               options={{ headerShown: false }}
             />
             <RootStack.Screen

@@ -17,7 +17,7 @@ function LoginScreen({ navigation }) {
       </View>
       <View style={tw`flex-col justify-center items-center gap-6`}>
         <Button
-          onPress={() => console.log('Login pressed')}
+          onPress={() => navigation.navigate('PhoneNumberScreen')}
           buttonStyle={tw`bg-blue-500 p-4 rounded-full w-80 bg-black`}
           textStyle={tw`text-white text-center`}>
           Create Account
