@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { View, Image, TouchableOpacity, Text, TextInput } from 'react-native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 //import AuthForm from '../components/AuthForm';
+import routeRequest from 'src/authBase/routeRequest';
 import Button from 'src/components/Button';
 import tw from 'twrnc';
 
@@ -15,6 +16,19 @@ function PhoneNumberScreen({ navigation }) {
   //const [withFlag, setWithFlag] = useState(true);
   //const [withCallingCode, setWithCallingCode] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  // handle phone number submission
+  async function handlePhoneNumberSubmit() {
+    const response = await routeRequest('/api/auth/register', {
+      phoneNumber: `+${country?.callingCode[0] || +1}${phoneNumber}`,
+    });
+    if (response !== '400') {
+      console.log('Code sent to phone number:', response);
+      navigation.navigate('VerificationScreen');
+    } else {
+      console.error('Error sending code:', response);
+    }
+  }
   //const navigation = useNavigation();
   return (
     <View style={tw`flex-col justify-around items-center w-full h-full p-4`}>
@@ -39,7 +53,9 @@ function PhoneNumberScreen({ navigation }) {
             }}
             containerButtonStyle={tw``}
           />
-          <Text style={tw`mr-2 h-full pr-2 py-4 border-r-2 border-[#EFEFEF]`}>{country?.callingCode ? `+${country.callingCode[0]}` : '+1'}</Text>
+          <Text style={tw`mr-2 h-full pr-2 py-4 border-r-2 border-[#EFEFEF]`}>
+            {country?.callingCode ? `+${country.callingCode[0]}` : '+1'}
+          </Text>
           <TextInput
             testID="phone-number-input"
             style={tw``}
@@ -50,11 +66,7 @@ function PhoneNumberScreen({ navigation }) {
         </View>
       </View>
       <Button
-        onPress={() =>
-          console.log(
-            `Send phone number pressed: +${country?.callingCode?.[0] || '1'}${phoneNumber}`
-          )
-        }
+        onPress={() => handlePhoneNumberSubmit()}
         buttonStyle={tw`bg-blue-500 p-4 rounded-full w-80 bg-black`}
         textStyle={tw`text-white text-center`}>
         Send
