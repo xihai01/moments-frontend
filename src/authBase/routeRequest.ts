@@ -7,7 +7,13 @@ const routeRequest = async (route, payload) => {
       const response = await authApi.post(route, payload);
 
       //console.log(response.headers.toJSON());
-      console.log(response.data);
+      console.log('/api/auth/register', response.data);
+
+      return response.data;
+    } else if (route === '/api/auth/verify') {
+      const response = await authApi.post(route, payload);
+
+      console.log('/api/auth/verify', response.data);
 
       return response.data;
     }

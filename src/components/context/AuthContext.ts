@@ -5,8 +5,12 @@ import routeRequest from '../../authBase/routeRequest';
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case 'signin':
-      return { ...state, isSignedIn: true, api_token: action.payload.api_token, refresh_token: action.payload.refresh_token, user: action.payload.user };
+    case 'verify':
+      return {
+        ...state,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+      };
     case 'signout':
       return { ...state, isSignedIn: false, api_token: null, refresh_token: null, user: null };
     case 'update_user':
@@ -25,27 +29,30 @@ const updateUser = (dispatch) => async (newUserData) => {
   }
 };
 
-const signin = (dispatch) => async (email, password) => {
-  const data = await routeRequest('/api/v1/users/sign_in', { email, password }); // Sign-in first
+const verify = (dispatch) => async (phoneNumber: string, code: string) => {
+  const data = await routeRequest('/api/auth/verify', { phoneNumber, code }); // Sign-in first
 
   if (data) {
-    const { api_token, refresh_token, user:{ id, display_name, email, refresh_token_expires_at, token_expires_at } } = data;
+    const { accessToken, refreshToken } = data;
     try {
-      await AsyncStorage.setItem('api_token', api_token);
-      await AsyncStorage.setItem('refresh_token', refresh_token);
-      await AsyncStorage.setItem('user', JSON.stringify({ id, display_name, email, refresh_token_expires_at, token_expires_at }));
+      await AsyncStorage.setItem('accessToken', accessToken);
+      await AsyncStorage.setItem('refreshToken', refreshToken);
 
-      console.log('User data stored in AsyncStorage' + ' Hello ' + display_name);
+      console.log(
+        'Access token and refresh token stored in AsyncStorage',
+        accessToken,
+        refreshToken
+      );
 
       dispatch({
-        type: 'signin',
-        payload: { api_token, refresh_token, user:{ id, display_name, email, refresh_token_expires_at, token_expires_at } },
+        type: 'verify',
+        payload: { accessToken, refreshToken },
       });
     } catch (storageError) {
-      console.error('Error storing data in AsyncStorage:', storageError);
+      console.error('Error storing access/refresh token in AsyncStorage:', storageError);
     }
   } else {
-    console.error('Sign-in failed, not storing data');
+    console.error('Verification failed, not storing data.');
   }
 };
 
@@ -80,6 +87,6 @@ const tryLocalSignin = (dispatch) => async () => {
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, updateUser, tryLocalSignin },
-  { isSignedIn: false, api_token: null, refresh_token: null, user: null }
+  { verify, signout, updateUser, tryLocalSignin },
+  { isSignedIn: false, accessToken: null, refreshToken: null }
 );
